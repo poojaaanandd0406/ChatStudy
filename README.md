@@ -72,7 +72,58 @@ User authentication mechanisms are essential to ensure secure and authorized acc
 Client-server chat applications are versatile tools that facilitate real-time communication between users over a network. They incorporate various components, including server-side and client-side elements, and must consider factors such as security, scalability, and concurrency. As technology continues to advance, client-server chat applications remain integral for collaborative communication in various domains.
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
+## Algorithm
+Server.py
 
+1. Create a TCP socket and bind it to host 127.0.0.1 and port 5000.
+2. Put the socket into listening mode, waiting for a client connection.
+3. Accept the incoming connection and capture the client’s address.
+4. Continuously receive data from the client, display it, and prompt the server user for a reply.
+5. Send the reply back to the client until no data is received, then close the connection.
+Client.py
+
+1.Create a TCP socket and connect it to host 127.0.0.1 and port 5000.
+2. Prompt the user to enter a message.
+3. Send the message to the server through the socket.
+4. Receive the server’s reply and display it.
+5. Repeat the process until communication ends, then close the socket.
+## Program
+Sever.py
+```
+import socket
+host = "127.0.0.1"   # localhost
+port = 5000
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((host, port))
+server_socket.listen(1)
+print("Server is listening on", host, ":", port)
+conn, addr = server_socket.accept()
+print("Connection from:", addr)
+while True:
+    data = conn.recv(1024).decode()
+    if not data:
+        break
+    print("Client:", data)
+    message = input("Server: ")
+    conn.send(message.encode())
+conn.close()
+```
+client.py
+```
+import socket
+host = "127.0.0.1"
+port = 12345
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket.connect((host, port))
+while True:
+    message = input("Client: ")
+    client_socket.send(message.encode())
+    data = client_socket.recv(1024).decode()
+    print("Server:", data)
+client_socket.close()
+```
+## Output
+<img width="1068" height="257" alt="Screenshot 2026-03-18 105526" src="https://github.com/user-attachments/assets/6abdb245-2de9-4e1e-88a5-43784954148f" />
 
 ## Result:
 
